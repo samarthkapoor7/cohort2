@@ -1,18 +1,22 @@
 const jwt = require("jsonwebtoken");
+const jwtPassword = "secret";
+const zod = require("zod");
 
-const value = {
-    name: "samarth",
-    accountNumber: 123123123
+const emailSchema = zod.string().email();
+const passwordSchema = zod.string().min(6);
+
+function signJwt(username, password) {
+    const usernameResponse = emailSchema.safeParse(username);
+    const passwordResponse = passwordSchema.safeParse(password);
+    if(!usernameResponse.success || !passwordResponse.success) {
+        return null;
+    }
+
+    const signature = jwt.sign({
+        username
+    }, jwtPassword)
+    return signature;
 }
 
-
-//jwt generate
-// const token = jwt.sign(value, "secret");
-// console.log(token);
-
-//jwt verify
-const verifiedValue = jwt.verify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2FtYXJ0aCIsImFjY291bnROdW1iZXIiOjEyMzEyMzEyMywiaWF0IjoxNzI3OTgxNjAxfQ.YOvTjM3Y1_njSgsSBwxXt2vGcS62WMLpMVEJ-_cWG9g", "secret");
-console.log(verifiedValue);
-
-
-//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoic2FtYXJ0aCIsImFjY291bnROdW1iZXIiOjEyMzEyMzEyMywiaWF0IjoxNzI3OTgxNjAxfQ.YOvTjM3Y1_njSgsSBwxXt2vGcS62WMLpMVEJ-_cWG9g
+const ans = signJwt("kapoorsamarth@gmail.com", "afafbaiufbauif")
+console.log(ans);
