@@ -18,5 +18,21 @@ function signJwt(username, password) {
     return signature;
 }
 
-const ans = signJwt("kapoorsamarth@gmail.com", "afafbaiufbauif")
-console.log(ans);
+function verifyJwt(token) {
+    let ans = true;
+    try {
+        jwt.verify(token, jwtPassword);
+    } catch (error) {
+        ans = false;
+    }
+    return ans;
+}
+
+function decodeJwt(token) {
+    const decoded = jwt.decode(token);
+    if(decoded) {
+        return true;
+    } else {
+        return false;
+    }
+}
