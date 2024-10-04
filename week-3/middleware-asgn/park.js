@@ -13,13 +13,15 @@ function isOldEnoughMiddleware(req, res, next) {
     }
 }
 
-app.get("/ride1", isOldEnoughMiddleware, function(req, res) {
+app.use(isOldEnoughMiddleware);
+
+app.get("/ride1", function(req, res) {
     res.json({
         msg: "You have successfully riden the ride 1"
     })
 });
 
-app.get("/ride2", isOldEnoughMiddleware, function(req, res) {
+app.get("/ride2", function(req, res) {
     res.json({
         msg: "You have successfully riden the ride 2"
     })
