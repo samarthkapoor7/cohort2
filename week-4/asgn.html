@@ -1,0 +1,24 @@
+<html>
+    <script>
+        function populateDiv() {
+            const a = document.getElementById("principal").value;
+            const b = document.getElementById("rate").value;
+            const c = document.getElementById("time").value;
+
+            fetch("https://sum-server.100xdevs.com/interest?principal=" + a + "&rate=" + b + "&time=" + c)
+            .then(function(response) {
+                response.text()
+                .then(function(ans) {
+                    document.getElementById("interest").innerHTML = ans;
+                })
+            })
+        }
+    </script>
+    <body>
+       <input id="principal" type="text" placeholder="Principal"></input> <br></br>
+       <input id="rate" type="text" placeholder="Rate"></input> <br></br>
+       <input id="time" type="text" placeholder="Time"></input> <br></br>
+       <button onclick="populateDiv()">Calculate interest</button> <br></br>
+       <div id="interest"></div
+    </body>
+</html>
