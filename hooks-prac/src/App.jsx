@@ -1,34 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import './App.css'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
-function App() {
-  const [render, setRender] = useState(true);
+function useTodos() {
+  const [todos, setTodos] = useState([])
 
   useEffect(() => {
-    setInterval(() => {
-      setRender(r=> !r);
-    }, 5000)
-  }, []);
+    axios.get("https://jsonplaceholder.typicode.com/todos/1")
+      .then(res => {
+        setTodos(res.data.todos);
+      })
+  }, [])
+
+  return todos;
+}
+
+function App() {
+  const todos = useTodos();
 
   return (
     <>
-      {render ? <MyComponent /> : <div>2nd div</div>}
+      {todos.map(todo => <Track todo={todo} />)}
     </>
   )
 }
 
-class MyComponent extends React.Component {
-  componentDidMount() {
-    console.log("component mounted")
-  }
-
-  componentWillUnmount() {
-    console.log("unmounted")
-  }
-
-  render() {
-    return <div>hi there</div>
-  }
+function Track({ todo }) {
+  return <div>
+    {todo.title}
+    <br />
+    {todo.description}
+  </div>
 }
 
 export default App
