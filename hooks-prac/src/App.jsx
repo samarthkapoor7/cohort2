@@ -1,35 +1,35 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react';
 
-function useTodos() {
-  const [todos, setTodos] = useState([])
+
+function useDebounce(value, timeout) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
-    axios.get("https://jsonplaceholder.typicode.com/todos/1")
-      .then(res => {
-        setTodos(res.data.todos);
-      })
-  }, [])
+    let timeoutNumber = setTimeout(() => {
+      setDebouncedValue(value);
+    }, timeout);
+    
+    return () => {
+      clearTimeout(timeoutNumber);
+    }
+  }, [value]);
 
-  return todos;
+  return debouncedValue;
 }
 
-function App() {
-  const todos = useTodos();
+const SearchBar = () => {
+  const [value, setValue] = useState(0);
+  const debouncedValue = useDebounce(value, 500); // 500 milliseconds debounce delay
 
   return (
     <>
-      {todos.map(todo => <Track todo={todo} />)}
+    Debounced value is {debouncedValue}
+    <input
+      type="text"
+      onChange={(e) => setValue(e.target.value)}
+      placeholder="Search..."/>
     </>
-  )
-}
+  );
+};
 
-function Track({ todo }) {
-  return <div>
-    {todo.title}
-    <br />
-    {todo.description}
-  </div>
-}
-
-export default App
+export default SearchBar;
