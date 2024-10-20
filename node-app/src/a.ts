@@ -1,11 +1,6 @@
-function maxValue(arr: number[]) {
-    let max = 0;
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i] > max) {
-            max = arr[i]
-        }
-    }
-    return max;
+function getFirstElement<T>(arr: T[]) {
+    return arr[0];
 }
 
-console.log(maxValue([1, 2, 3]));
+const el = getFirstElement(["harkiratSingh", "ramanSingh"]);
+console.log(el.toLowerCase())
