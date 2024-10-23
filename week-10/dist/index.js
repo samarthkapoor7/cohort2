@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const pg_1 = require("pg");
-// Async function to insert data into a table
-function insertData() {
+// Async function to fetch user data from the database given an email
+function getUser(email) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = new pg_1.Client({
             host: 'localhost',
@@ -20,18 +20,18 @@ function insertData() {
             user: 'postgres',
             password: 'lmao@123',
         });
-        try {
-            yield client.connect(); // Ensure client connection is established
-            const insertQuery = "INSERT INTO users (username, email, password) VALUES ('username2', 'user3@example.com', 'user_password');";
-            const res = yield client.query(insertQuery);
-            console.log('Insertion success:', res); // Output insertion result
+        yield client.connect(); // Ensure client connection is established
+        const query = 'SELECT * FROM users WHERE email = $1';
+        const result = yield client.query(query, [email]);
+        if (result.rows.length > 0) {
+            console.log('User found:', result.rows[0]); // Output user data
+            return result.rows[0]; // Return the user data
         }
-        catch (err) {
-            console.error('Error during the insertion:', err);
-        }
-        finally {
-            yield client.end(); // Close the client connection
+        else {
+            console.log('No user found with the given email.');
+            return null; // Return null if no user was found
         }
     });
 }
-insertData();
+// Example usage
+getUser('user5@example.com').catch(console.error);
