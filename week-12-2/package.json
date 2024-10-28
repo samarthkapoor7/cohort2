@@ -1,0 +1,17 @@
+{
+  "name": "cohort",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000c\u0000o\u0000h\u0000o\u0000r\u0000t\u00002\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^5.0.0",
+    "express": "^4.21.1",
+    "zod": "^3.23.8"
+  }
+}
